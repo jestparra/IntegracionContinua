@@ -1,0 +1,20 @@
+pipeline{
+    agent any
+
+    stage {
+        stage('docker build'){
+            steps {
+                script{
+                    sh "docker build -f IntegracionContinua/Proyecto/IntegracionContinua/Dockerfile -t integracionimage-${BUILD_ID} IntegracionContinua/Proyecto/IntegracionContinua"
+                }
+            }
+        }
+        stage('docker push'){
+            steps {
+                script{
+                    sh "docker push integracionimage-${BUILD_ID}"
+                }
+            }
+        }
+    }
+}
