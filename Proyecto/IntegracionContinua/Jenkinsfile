@@ -1,20 +1,24 @@
 pipeline{
-    agent any
-
-    stages {
-        stage('docker build'){
-            steps {
-                script{
-                    sh "docker build -f Proyecto/IntegracionContinua/Dockerfile -t integracionimage-${BUILD_ID} Proyecto/IntegracionContinua"
-                }
+    agent {
+            docker {
+                image 'maven'
+                args '--privileged -v $HOME/.m2:/home/jenkins/.m2 -ti -u 496 -e MAVEN_CONFIG=/home/jenkins/.m2 -e MAVEN_OPTS=-Xmx2048m'
             }
         }
-        stage('docker push'){
-            steps {
-                script{
-                    sh "docker push integracionimage-${BUILD_ID}"
+        stages {
+            stage('docker build'){
+                steps {
+                    script{
+                        sh "docker build -f Proyecto/IntegracionContinua/Dockerfile -t integracionimage-${BUILD_ID} Proyecto/IntegracionContinua"
+                    }
+                }
+            }
+            stage('docker push'){
+                steps {
+                    script{
+                        sh "docker push integracionimage-${BUILD_ID}"
+                    }
                 }
             }
         }
     }
-}
