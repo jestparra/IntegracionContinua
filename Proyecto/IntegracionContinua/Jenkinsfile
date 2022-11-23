@@ -1,11 +1,11 @@
 pipeline{
     agent any
 
-    stage {
+    stages {
         stage('docker build'){
             steps {
                 script{
-                    sh "docker build -f IntegracionContinua/Proyecto/IntegracionContinua/Dockerfile -t integracionimage-${BUILD_ID} IntegracionContinua/Proyecto/IntegracionContinua"
+                    sh "docker build -f Proyecto/IntegracionContinua/Dockerfile -t integracionimage-${BUILD_ID} Proyecto/IntegracionContinua"
                 }
             }
         }
